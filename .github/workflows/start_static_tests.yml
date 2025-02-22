@@ -37,7 +37,7 @@ jobs:
 
   snooze:
     needs: log-UAT-call
-    runs-on: ububtu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: call_sleep_timer
         shell: bash
