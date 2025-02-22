@@ -15,9 +15,9 @@ jobs:
       - name: Perform_mock_tests
         shell: bash
         run: |
-          START = $(date)
+          START=$(date)
           echo "${{ inputs.environment }} testing started at $START"
           sleep 10
-          FINISH = $(date)
+          FINISH=$(date)
           echo "${{ inputs.environment }} testing finished at $FINISH"
       
