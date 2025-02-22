@@ -11,7 +11,7 @@ jobs:
         shell: powershell
         run: |
           $START = Get-Date
-          echo Long-running testing started at $START
+          echo "Long-running testing started at $START"
           Start-Sleep -Seconds 120
           $FINISH = Get-Date
-          echo Long-running testing finished at $FINISH
+          echo "Long-running testing finished at $FINISH"
