@@ -16,10 +16,10 @@ jobs:
         shell: powershell
         run: |
           $START = Get-Date
-          echo ${{ inputs.environment }} testing started at $START
+          echo "${{ inputs.environment }} testing started at $START"
           Start-Sleep -Seconds 10
           $FINISH = Get-Date
-          echo ${{ inputs.environment }} testing finished at $FINISH
+          echo "${{ inputs.environment }} testing finished at $FINISH"
       
   
 
