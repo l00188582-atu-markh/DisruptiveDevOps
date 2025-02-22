@@ -10,8 +10,8 @@ jobs:
       - name: Perform_mock_tests
         shell: bash
         run: |
-          START = $(date)
+          START=$(date)
           echo "Long-running testing started at $START"
           sleep 120
-          FINISH = $(date)
+          FINISH=$(date)
           echo "Long-running testing finished at $FINISH"
