@@ -1,12 +1,7 @@
-name: Simulate_Tests
+name: Simulate_Long-running_Process
 
 on:
-  workflow_call:
-    inputs:
-      environment:
-        description: The name of the environment being simulated
-        type: string
-        required: true
+  workflow_call
 
 jobs:
   run-test:
@@ -16,7 +11,7 @@ jobs:
         shell: powershell
         run: |
           $START = Get-Date
-          echo ${{ inputs.environment }} testing started at $START
+          echo Long-running testing started at $START
           Start-Sleep -Seconds 120
           $FINISH = Get-Date
-          echo ${{ inputs.environment }} testing finished at $FINISH
+          echo Long-running testing finished at $FINISH
