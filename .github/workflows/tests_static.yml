@@ -1,0 +1,16 @@
+name: Standard_Tests_Static
+
+on: 
+  workflow_dispatch
+
+jobs:
+  run-SIT-tests:
+    uses: ./.github/workflows/static-sit-tests.yml
+
+  run-UAT-tests:
+    needs: run-SIT-tests
+    uses: ./.github/workflows/static-uat-tests.yml
+
+  run-ORT-tests:
+    needs: run-UAT-tests
+    uses: ./.github/workflows/static-ort-tests.yml
