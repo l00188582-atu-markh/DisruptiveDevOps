@@ -5,12 +5,18 @@ on:
 
 jobs:
   run-SIT-tests:
-    uses: ./.github/workflows/static-sit-tests.yml
+    uses: ./.github/workflows/static-tests.yml
+    with:
+      environment: SIT
 
   run-UAT-tests:
     needs: run-SIT-tests
-    uses: ./.github/workflows/static-uat-tests.yml
+    uses: ./.github/workflows/static-tests.yml
+    with: 
+      environment: UAT
 
   run-ORT-tests:
     needs: run-UAT-tests
-    uses: ./.github/workflows/static-ort-tests.yml
+    uses: ./.github/workflows/static-tests.yml
+    with:
+      environment: ORT
