@@ -1,0 +1,23 @@
+name: Simulate_Tests
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: The name of the environment being simulated
+        type: string
+        required: true
+
+jobs:
+  run-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Perform_mock_tests
+        shell: bash
+        run: |
+          START = $(date)
+          echo "${{ inputs.environment }} testing started at $START"
+          sleep 10
+          FINISH = $(date)
+          echo "${{ inputs.environment }} testing finished at $FINISH"
+      
