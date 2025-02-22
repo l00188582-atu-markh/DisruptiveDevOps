@@ -34,9 +34,17 @@ jobs:
   start-long-running-process:
     needs: log-UAT-call
     uses: ./.github/workflows/[REUSABLE]-static-long-running.yml
-    
+
+  snooze:
+    needs: log-UAT-call
+    runs-on: ububtu-latest
+    steps:
+      - name: call_sleep_timer
+        shell: bash
+        run: sleep 10
+        
   run-UAT-tests:
-    needs: start-long-running-process # this is to make sure the long-running process grabs the resource first
+    needs: snooze # this is to make sure the long-running process grabs the resource first
     uses: ./.github/workflows/[REUSABLE]-static-tests.yml
     with: 
       environment: UAT
