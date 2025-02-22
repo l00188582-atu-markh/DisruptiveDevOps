@@ -1,0 +1,17 @@
+name: Simulate_Long-running_Process
+
+on:
+  workflow_call
+
+jobs:
+  run-test:
+    runs-on: local
+    steps:
+      - name: Perform_mock_tests
+        shell: powershell
+        run: |
+          $START = Get-Date
+          echo "Long-running testing started at $START"
+          Start-Sleep -Seconds 120
+          $FINISH = Get-Date
+          echo "Long-running testing finished at $FINISH"

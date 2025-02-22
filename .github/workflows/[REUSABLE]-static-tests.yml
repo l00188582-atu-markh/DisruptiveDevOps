@@ -1,0 +1,26 @@
+name: Simulate_Tests
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: The name of the environment being simulated
+        type: string
+        required: true
+
+jobs:
+  run-test:
+    runs-on: local
+    steps:
+      - name: Perform_mock_tests
+        shell: powershell
+        run: |
+          $START = Get-Date
+          echo "${{ inputs.environment }} testing started at $START"
+          Start-Sleep -Seconds 10
+          $FINISH = Get-Date
+          echo "${{ inputs.environment }} testing finished at $FINISH"
+      
+  
+
+  

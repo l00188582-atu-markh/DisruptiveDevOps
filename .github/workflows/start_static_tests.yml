@@ -1,0 +1,58 @@
+name: Standard_Tests_Static
+
+# Simuulates running 3 sets of tests in succession, each having their own environment
+
+on: 
+  workflow_dispatch
+
+jobs:
+  log-SIT-call:
+    runs-on: local
+    steps:
+      - name: log
+        shell: powershell
+        run: |
+          $TIME = Get-Date
+          echo "Calling SIT at $TIME"
+               
+  run-SIT-tests:
+    needs: log-SIT-call
+    uses: ./.github/workflows/[REUSABLE]-static-tests.yml
+    with:
+      environment: SIT
+      
+  log-UAT-call:
+    runs-on: local
+    needs: run-SIT-tests
+    steps:
+      - name: log
+        shell: powershell
+        run: |
+          $TIME = Get-Date
+          echo "Calling UAT at $TIME"
+  
+  start-long-running-process:
+    needs: log-UAT-call
+    uses: ./.github/workflows/[REUSABLE]-static-long-running.yml
+    
+  run-UAT-tests:
+    needs: start-long-running-process # this is to make sure the long-running process grabs the resource first
+    uses: ./.github/workflows/[REUSABLE]-static-tests.yml
+    with: 
+      environment: UAT
+
+  log-ORT-call:
+    needs: run-UAT-tests
+    runs-on: local
+    steps:
+      - name: log
+        shell: powershell
+        run: |
+          $TIME = Get-Date
+          echo "Calling ORT at $TIME"
+
+  run-ORT-tests:
+    needs: log-ORT-call
+    uses: ./.github/workflows/[REUSABLE]-static-tests.yml
+    with:
+      environment: ORT
