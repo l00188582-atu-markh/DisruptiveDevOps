@@ -1,22 +1,24 @@
 name: Standard_Tests_Static
 
+# Simuulates running 3 sets of tests in succession, each having their own environment
+
 on: 
   workflow_dispatch
 
 jobs:
   run-SIT-tests:
-    uses: ./.github/workflows/static-tests.yml
+    uses: ./.github/workflows/[REUSABLE]-static-tests.yml
     with:
       environment: SIT
 
   run-UAT-tests:
     needs: run-SIT-tests
-    uses: ./.github/workflows/static-tests.yml
+    uses: ./.github/workflows/[REUSABLE]-static-tests.yml
     with: 
       environment: UAT
 
   run-ORT-tests:
     needs: run-UAT-tests
-    uses: ./.github/workflows/static-tests.yml
+    uses: ./.github/workflows/[REUSABLE]-static-tests.yml
     with:
       environment: ORT
