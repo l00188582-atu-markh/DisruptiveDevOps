@@ -8,6 +8,8 @@ on:
 jobs:
   log-SIT-call:
     runs-on: ubuntu-latest
+    permissions: 
+      contents: write
     steps:
       - name: checkout-repo
         uses: actions/checkout@v3
@@ -31,12 +33,11 @@ jobs:
           contents: "Starting SIT Tests @ ${{ steps.start-date.outputs.date }}"  
 
       - name: commit-log-entry
-        uses: Andro999b/push@v1.3
+        uses: stefanzweifel/git-auto-commit-action@v5
         with: 
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
-          force: true
-          message: "Update logs @ ${{ steps.start-date.outputs.date }}"
+          commit_message: "Update logs @ ${{ steps.start-date.outputs.date }}"
+          push-options: '--force'
                
   run-SIT-tests:
     needs: log-SIT-call
@@ -47,6 +48,8 @@ jobs:
   log-UAT-call:
     runs-on: ubuntu-latest
     needs: run-SIT-tests
+    permissions: 
+      contents: write
     steps:
       - name: checkout-repo
         uses: actions/checkout@v3
@@ -63,16 +66,17 @@ jobs:
           contents: "Starting SIT Tests @ ${{ steps.start-date.outputs.date }}"
 
       - name: commit-log-entry
-        uses: Andro999b/push@v1.3
+        uses: stefanzweifel/git-auto-commit-action@v5
         with: 
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
-          force: true
-          message: "Update logs @ ${{ steps.start-date.outputs.date }}"
+          commit_message: "Update logs @ ${{ steps.start-date.outputs.date }}"
+          push-options: '--force'
   
   log-long-running-start:
     runs-on: ubuntu-latest
     needs: run-SIT-tests
+    permissions: 
+      contents: write
     steps:
       - name: checkout-repo
         uses: actions/checkout@v3
@@ -103,6 +107,8 @@ jobs:
   log-long-running-finish:
     needs: start-long-running-process
     runs-on: ubuntu-latest
+    permissions: 
+      contents: write
     steps:
       - name: checkout-repo
         uses: actions/checkout@v3
@@ -119,12 +125,11 @@ jobs:
           contents: "Long running process finished @ ${{ steps.start-date.outputs.date }}"
 
       - name: commit-log-entry
-        uses: Andro999b/push@v1.3
+        uses: stefanzweifel/git-auto-commit-action@v5
         with: 
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
-          force: true
-          message: "Update logs @ ${{ steps.start-date.outputs.date }}"
+          commit_message: "Update logs @ ${{ steps.start-date.outputs.date }}"
+          push-options: '--force'
 
   snooze:
     needs: log-UAT-call
@@ -143,6 +148,8 @@ jobs:
   log-ORT-call:
     needs: run-UAT-tests
     runs-on: ubuntu-latest
+    permissions: 
+      contents: write
     steps:
       - name: checkout-repo
         uses: actions/checkout@v3
@@ -159,12 +166,11 @@ jobs:
           contents: "Starting ORT tests @ ${{ steps.start-date.outputs.date }}"
 
       - name: commit-log-entry
-        uses: Andro999b/push@v1.3
+        uses: stefanzweifel/git-auto-commit-action@v5
         with: 
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
-          force: true
-          message: "Update logs @ ${{ steps.start-date.outputs.date }}"
+          commit_message: "Update logs @ ${{ steps.start-date.outputs.date }}"
+          push-options: '--force'
 
   run-ORT-tests:
     needs: log-ORT-call
@@ -175,6 +181,8 @@ jobs:
   log-ORT-end:
     needs: run-ORT-tests
     runs-on: ubuntu-latest
+    permissions: 
+      contents: write
     steps:
       - name: checkout-repo
         uses: actions/checkout@v3
@@ -191,9 +199,8 @@ jobs:
           contents: "Finished ORT tests @ ${{ steps.start-date.outputs.date }}"
 
       - name: commit-log-entry
-        uses: Andro999b/push@v1.3
+        uses: stefanzweifel/git-auto-commit-action@v5
         with: 
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
-          force: true
-          message: "Update logs @ ${{ steps.start-date.outputs.date }}"    
+          commit_message: "Update logs @ ${{ steps.start-date.outputs.date }}"
+          push-options: '--force'    
