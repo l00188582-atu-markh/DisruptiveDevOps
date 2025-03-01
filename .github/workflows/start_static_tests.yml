@@ -29,7 +29,7 @@ jobs:
     needs: run-SIT-tests
     uses: ./.github/workflows/[REUSABLE]-write-log.yml
     with:
-      message: "Starting SIT Tests @ "
+      message: "Starting UAT Tests @ "
       is_static: true
   
   log-long-running-start:
