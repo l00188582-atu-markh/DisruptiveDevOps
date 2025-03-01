@@ -100,7 +100,7 @@ jobs:
           push_options: '--force'
   
   start-long-running-process:
-    needs: log-UAT-call
+    needs: log-long-running-start
     uses: ./.github/workflows/[REUSABLE]-static-long-running.yml
 
   log-long-running-finish:
