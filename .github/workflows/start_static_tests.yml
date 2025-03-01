@@ -102,6 +102,7 @@ jobs:
   start-long-running-process:
     needs: log-long-running-start
     uses: ./.github/workflows/[REUSABLE]-static-long-running.yml
+    secrets: inherit
 
   snooze:
     needs: log-UAT-call
