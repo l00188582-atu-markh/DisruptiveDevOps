@@ -21,14 +21,14 @@ jobs:
       - name: first-log-entry
         uses: DamianReeves/write-file-action@master
         with: 
-          path: ./logs/ephemeral_log.txt
+          path: ./logs/static_log.txt
           write-mode: overwrite
           contents: "Static workflow started @ ${{ steps.start-date.outputs.date }}"
     
       - name: log-entry
         uses: DamianReeves/write-file-action@master
         with: 
-          path: ./logs/ephemeral_log.txt
+          path: ./logs/static_log.txt
           write-mode: append
           contents: "Starting SIT Tests @ ${{ steps.start-date.outputs.date }}"  
 
@@ -61,7 +61,7 @@ jobs:
       - name: log-entry
         uses: DamianReeves/write-file-action@master
         with: 
-          path: ./logs/ephemeral_log.txt
+          path: ./logs/static_log.txt
           write-mode: append
           contents: "Starting SIT Tests @ ${{ steps.start-date.outputs.date }}"
 
@@ -88,7 +88,7 @@ jobs:
       - name: log-entry
         uses: DamianReeves/write-file-action@master
         with: 
-          path: ./logs/ephemeral_log.txt
+          path: ./logs/static_log.txt
           write-mode: append
           contents: "Starting long-running process @ ${{ steps.start-date.outputs.date }}"
 
@@ -102,33 +102,6 @@ jobs:
   start-long-running-process:
     needs: log-long-running-start
     uses: ./.github/workflows/[REUSABLE]-static-long-running.yml
-
-  log-long-running-finish:
-    needs: start-long-running-process
-    runs-on: ubuntu-latest
-    permissions: 
-      contents: write
-    steps:
-      - name: checkout-repo
-        uses: actions/checkout@v3
-
-      - name: get-date
-        id: start-date
-        run: echo "::set-output name=date::$(date)"
-        
-      - name: log-entry
-        uses: DamianReeves/write-file-action@master
-        with: 
-          path: ./logs/ephemeral_log.txt
-          write-mode: append
-          contents: "Long running process finished @ ${{ steps.start-date.outputs.date }}"
-
-      - name: commit-log-entry
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with: 
-          branch: main
-          commit_message: "Update logs @ ${{ steps.start-date.outputs.date }}"
-          push_options: '--force'
 
   snooze:
     needs: log-UAT-call
@@ -160,7 +133,7 @@ jobs:
       - name: log-entry
         uses: DamianReeves/write-file-action@master
         with: 
-          path: ./logs/ephemeral_log.txt
+          path: ./logs/static_log.txt
           write-mode: append
           contents: "Starting ORT tests @ ${{ steps.start-date.outputs.date }}"
 
@@ -193,7 +166,7 @@ jobs:
       - name: log-entry
         uses: DamianReeves/write-file-action@master
         with: 
-          path: ./logs/ephemeral_log.txt
+          path: ./logs/static_log.txt
           write-mode: append
           contents: "Finished ORT tests @ ${{ steps.start-date.outputs.date }}"
 
