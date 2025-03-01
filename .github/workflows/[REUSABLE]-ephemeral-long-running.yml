@@ -17,28 +17,7 @@ jobs:
           echo "Long-running testing finished at $FINISH"
 
   log-long-running-finish:
-    needs: run-test
-    runs-on: ubuntu-latest
-    permissions: 
-      contents: write
-    steps:
-      - name: checkout-repo
-        uses: actions/checkout@v3
-
-      - name: get-date
-        id: start-date
-        run: echo "::set-output name=date::$(date)"
-        
-      - name: log-entry
-        uses: DamianReeves/write-file-action@master
-        with: 
-          path: ./logs/ephemeral_log.txt
-          write-mode: append
-          contents: "Long running process finished @ ${{ steps.start-date.outputs.date }}\r"
-
-      - name: commit-log-entry
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with: 
-          branch: main
-          commit_message: "Update logs @ ${{ steps.start-date.outputs.date }}"
-          push_options: '--force'        
+    uses: ./.github/workflows/[REUSABLE]-write-log.yml
+    with:
+      message: "Long-running process started @ "
+      is_static: true
