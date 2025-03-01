@@ -17,22 +17,30 @@ jobs:
     if: ${{ inputs.is_static }}
     runs-on: local
     steps:
+       - name: get-date
+         id: start-date
+         run: echo "::set-output name=date::$(date)"
+       
        - name: write-log
          uses: DamianReeves/write-file-action@master
          with:
            path: E:\Experiment\static_log.txt
            write-mode: append
-           contents: ${{ inputs.message }}
+           contents: ${{ inputs.message }}S{{ steps.start-date.outputs.date }}"\r\n"
 
   write-ephemeral-log:
     if: ${{ ! inputs.is_static }}
     runs-on: local
     steps:
+       - name: get-date
+         id: start-date
+         run: echo "::set-output name=date::$(date)"
+         
        - name: write-log
          uses: DamianReeves/write-file-action@master
          with:
            path: E:\Experiment\ephemeral_log.txt
            write-mode: append
-           contents: ${{ inputs.message }}
+           contents: ${{ inputs.message }}S{{ steps.start-date.outputs.date }}"\r\n"
 
            
