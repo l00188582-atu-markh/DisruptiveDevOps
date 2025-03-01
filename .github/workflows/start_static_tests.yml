@@ -13,6 +13,7 @@ jobs:
       is_static: true
       
   log-SIT-call:
+    needs: log-workflow-start 
     uses: ./.github/workflows/[REUSABLE]-write-log.yml
     with:
       message: "SIT testing started @ "
