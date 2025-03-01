@@ -23,14 +23,14 @@ jobs:
         with: 
           path: ./logs/static_log.txt
           write-mode: overwrite
-          contents: "Static workflow started @ ${{ steps.start-date.outputs.date }}\r\n"
+          contents: "Static workflow started @ ${{ steps.start-date.outputs.date }}\n"
     
       - name: log-entry
         uses: DamianReeves/write-file-action@master
         with: 
           path: ./logs/static_log.txt
           write-mode: append
-          contents: "Starting SIT Tests @ ${{ steps.start-date.outputs.date }}\r\n"  
+          contents: "Starting SIT Tests @ ${{ steps.start-date.outputs.date }}\n"  
 
       - name: commit-log-entry
         uses: stefanzweifel/git-auto-commit-action@v5
@@ -63,7 +63,7 @@ jobs:
         with: 
           path: ./logs/static_log.txt
           write-mode: append
-          contents: "Starting SIT Tests @ ${{ steps.start-date.outputs.date }}\r\n"
+          contents: "Starting SIT Tests @ ${{ steps.start-date.outputs.date }}\n"
 
       - name: commit-log-entry
         uses: stefanzweifel/git-auto-commit-action@v5
@@ -90,7 +90,7 @@ jobs:
         with: 
           path: ./logs/static_log.txt
           write-mode: append
-          contents: "Starting long-running process @ ${{ steps.start-date.outputs.date }}\r\n"
+          contents: "Starting long-running process @ ${{ steps.start-date.outputs.date }}\n"
 
       - name: commit-log-entry
         uses: stefanzweifel/git-auto-commit-action@v5
@@ -136,7 +136,7 @@ jobs:
         with: 
           path: ./logs/static_log.txt
           write-mode: append
-          contents: "Starting ORT tests @ ${{ steps.start-date.outputs.date }}\r\n"
+          contents: "Starting ORT tests @ ${{ steps.start-date.outputs.date }}\n"
 
       - name: commit-log-entry
         uses: stefanzweifel/git-auto-commit-action@v5
@@ -169,7 +169,7 @@ jobs:
         with: 
           path: ./logs/static_log.txt
           write-mode: append
-          contents: "Finished ORT tests @ ${{ steps.start-date.outputs.date }}\r\n"
+          contents: "Finished ORT tests @ ${{ steps.start-date.outputs.date }}\n"
 
       - name: commit-log-entry
         uses: stefanzweifel/git-auto-commit-action@v5
