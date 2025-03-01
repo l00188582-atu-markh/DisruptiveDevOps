@@ -1,0 +1,60 @@
+name: Write_first_log_entry
+
+on: 
+  workflow_call:
+    inputs:
+      message:
+        description: The text to be written
+        required: true
+        type: string
+      is_static:
+        description: flag indicating whether the log is for the static or ephemeral workflow
+        required: true
+        type: boolean
+      
+jobs:
+  write-static-log:
+    if: ${{ inputs.is_static }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      
+      - name: Overwrite log
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: ./logs/static_log.txt
+          write-mode: overwrite
+          contents: ${{ inputs.message }}
+
+      - name: Commit changes
+        uses: Andro999b/push@v1.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: true
+          message: 'Update static log - ${date}'
+          
+  write-ephemeral-log:
+    if: ${{ ! inputs.is_static }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      
+      - name: Overwrite log
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: ./logs/ephemeral_log.txt
+          write-mode: overwrite
+          contents: ${{ inputs.message }}
+
+      - name: Commit changes
+        uses: Andro999b/push@v1.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: true
+          message: 'Update ephemeral log - ${date}'
+          
+    
