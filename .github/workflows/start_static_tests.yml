@@ -25,12 +25,14 @@ jobs:
       environment: SIT
       
   log-UAT-call:
+    needs: run-SIT-tests
     uses: ./.github/workflows/[REUSABLE]-write-log.yml
     with:
       message: "Starting SIT Tests @ "
       is_static: true
   
   log-long-running-start:
+    needs: run-SIT-tests
     uses: ./.github/workflows/[REUSABLE]-write-log.yml
     with:
       message: "Starting long-running process @ "
@@ -56,6 +58,7 @@ jobs:
       environment: UAT
 
   log-ORT-call:
+    needs: run-UAT-tests
     uses: ./.github/workflows/[REUSABLE]-write-log.yml
     with:
       message: "Starting ORT tests @ "
@@ -68,6 +71,7 @@ jobs:
       environment: ORT
 
   log-ORT-end:
+    needs: run-ORT-tests 
     uses: ./.github/workflows/[REUSABLE]-write-log.yml
     with:
       message: "Finished ORT tests @ "
