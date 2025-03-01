@@ -9,11 +9,34 @@ jobs:
   log-SIT-call:
     runs-on: local
     steps:
-      - name: log
-        shell: powershell
-        run: |
-          $TIME = Get-Date
-          echo "Calling SIT at $TIME"
+      - name: checkout-repo
+        uses: actions/checkout@v3
+
+      - name: get-date
+        id: start-date
+        run: echo "::set-output name=date::$(date)"
+        
+      - name: first-log-entry
+        uses: DamianReeves/write-file-action@master
+        with: 
+          path: ./logs/ephemeral_log.txt
+          write-mode: overwrite
+          contents: "Ephemeral workflow started @ ${{ steps.start-date.outputs.date }}"
+    
+      - name: first-log-entry
+        uses: DamianReeves/write-file-action@master
+        with: 
+          path: ./logs/ephemeral_log.txt
+          write-mode: append
+          contents: "Starting SIT Tests @ ${{ steps.start-date.outputs.date }}"  
+
+      - name: commit-log-entry
+        uses: Andro999b/push@v1.3
+        with: 
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: true
+          message: "Update logs @ ${{ steps.start-date.outputs.date }}"
                
   run-SIT-tests:
     needs: log-SIT-call
@@ -22,19 +45,87 @@ jobs:
       environment: SIT
       
   log-UAT-call:
-    runs-on: local
+    runs-on: ubuntu-latest
     needs: run-SIT-tests
     steps:
-      - name: log
-        shell: powershell
-        run: |
-          $TIME = Get-Date
-          echo "Calling UAT at $TIME"
+      - name: checkout-repo
+        uses: actions/checkout@v3
+
+      - name: get-date
+        id: start-date
+        run: echo "::set-output name=date::$(date)"
+        
+      - name: first-log-entry
+        uses: DamianReeves/write-file-action@master
+        with: 
+          path: ./logs/ephemeral_log.txt
+          write-mode: append
+          contents: "Starting SIT Tests @ ${{ steps.start-date.outputs.date }}"
+
+      - name: commit-log-entry
+        uses: Andro999b/push@v1.3
+        with: 
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: true
+          message: "Update logs @ ${{ steps.start-date.outputs.date }}"
+  
+  log-long-running-start:
+    runs-on: ubuntu-latest
+    needs: run-SIT-tests
+    steps:
+      - name: checkout-repo
+        uses: actions/checkout@v3
+
+      - name: get-date
+        id: start-date
+        run: echo "::set-output name=date::$(date)"
+        
+      - name: first-log-entry
+        uses: DamianReeves/write-file-action@master
+        with: 
+          path: ./logs/ephemeral_log.txt
+          write-mode: append
+          contents: "Starting long-running process @ ${{ steps.start-date.outputs.date }}"
+
+      - name: commit-log-entry
+        uses: Andro999b/push@v1.3
+        with: 
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: true
+          message: "Update logs @ ${{ steps.start-date.outputs.date }}"
   
   start-long-running-process:
     needs: log-UAT-call
     uses: ./.github/workflows/[REUSABLE]-ephemeral-long-running.yml
-   
+
+  log-long-running-finish:
+    needs: start-long-running-process
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout-repo
+        uses: actions/checkout@v3
+
+      - name: get-date
+        id: start-date
+        run: echo "::set-output name=date::$(date)"
+        
+      - name: first-log-entry
+        uses: DamianReeves/write-file-action@master
+        with: 
+          path: ./logs/ephemeral_log.txt
+          write-mode: append
+          contents: "Long running process finished @ ${{ steps.start-date.outputs.date }}"
+
+      - name: commit-log-entry
+        uses: Andro999b/push@v1.3
+        with: 
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: true
+          message: "Update logs @ ${{ steps.start-date.outputs.date }}"
+          
   snooze:
     needs: log-UAT-call
     runs-on: ubuntu-latest
@@ -51,16 +142,58 @@ jobs:
 
   log-ORT-call:
     needs: run-UAT-tests
-    runs-on: local
+    runs-on: ubuntu-latest
     steps:
-      - name: log
-        shell: powershell
-        run: |
-          $TIME = Get-Date
-          echo "Calling ORT at $TIME"
+      - name: checkout-repo
+        uses: actions/checkout@v3
+
+      - name: get-date
+        id: start-date
+        run: echo "::set-output name=date::$(date)"
+        
+      - name: first-log-entry
+        uses: DamianReeves/write-file-action@master
+        with: 
+          path: ./logs/ephemeral_log.txt
+          write-mode: append
+          contents: "Starting ORT tests @ ${{ steps.start-date.outputs.date }}"
+
+      - name: commit-log-entry
+        uses: Andro999b/push@v1.3
+        with: 
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: true
+          message: "Update logs @ ${{ steps.start-date.outputs.date }}"
 
   run-ORT-tests:
     needs: log-ORT-call
     uses: ./.github/workflows/[REUSABLE]-ephemeral-tests.yml
     with:
       environment: ORT
+
+  log-ORT-end:
+    needs: run-ORT-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout-repo
+        uses: actions/checkout@v3
+
+      - name: get-date
+        id: start-date
+        run: echo "::set-output name=date::$(date)"
+        
+      - name: first-log-entry
+        uses: DamianReeves/write-file-action@master
+        with: 
+          path: ./logs/ephemeral_log.txt
+          write-mode: append
+          contents: "Finished ORT tests @ ${{ steps.start-date.outputs.date }}"
+
+      - name: commit-log-entry
+        uses: Andro999b/push@v1.3
+        with: 
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: true
+          message: "Update logs @ ${{ steps.start-date.outputs.date }}"      
