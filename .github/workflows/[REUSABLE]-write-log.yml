@@ -1,0 +1,38 @@
+name: Write_Log_Entry
+
+on:
+  workflow_call: 
+    inputs:
+      message:
+        description: The text to be written
+        required: true
+        type: string
+      is_static:
+        description: flag indicating whether the log is for the static or ephemeral workflow
+        required: true
+        type: boolean
+      
+jobs:
+  write-static-log:
+    if: ${{ inputs.is_static }}
+    runs-on: local
+    steps:
+       - name: write-log
+         uses: DamianReeves/write-file-action@master
+         with:
+           path: E:\Experiment\static_log.txt
+           write-mode: append
+           contents: ${{ inputs.message }}
+
+  write-ephemeral-log:
+    if: ${{ ! inputs.is_static }}
+    runs-on: local
+    steps:
+       - name: write-log
+         uses: DamianReeves/write-file-action@master
+         with:
+           path: E:\Experiment\ephemeral_log.txt
+           write-mode: append
+           contents: ${{ inputs.message }}
+
+           
