@@ -34,7 +34,7 @@ jobs:
         with: 
           path: ./logs/static_log.txt
           write-mode: append
-          contents: "Long running process finished @ ${{ steps.start-date.outputs.date }}\r\n"
+          contents: "Long running process finished @ ${{ steps.start-date.outputs.date }}\n"
 
       - name: commit-log-entry
         uses: stefanzweifel/git-auto-commit-action@v5
