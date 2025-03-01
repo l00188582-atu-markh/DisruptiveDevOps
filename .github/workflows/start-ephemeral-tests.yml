@@ -23,7 +23,7 @@ jobs:
           write-mode: overwrite
           contents: "Ephemeral workflow started @ ${{ steps.start-date.outputs.date }}"
     
-      - name: first-log-entry
+      - name: log-entry
         uses: DamianReeves/write-file-action@master
         with: 
           path: ./logs/ephemeral_log.txt
@@ -55,7 +55,7 @@ jobs:
         id: start-date
         run: echo "::set-output name=date::$(date)"
         
-      - name: first-log-entry
+      - name: log-entry
         uses: DamianReeves/write-file-action@master
         with: 
           path: ./logs/ephemeral_log.txt
@@ -81,7 +81,7 @@ jobs:
         id: start-date
         run: echo "::set-output name=date::$(date)"
         
-      - name: first-log-entry
+      - name: log-entry
         uses: DamianReeves/write-file-action@master
         with: 
           path: ./logs/ephemeral_log.txt
@@ -111,7 +111,7 @@ jobs:
         id: start-date
         run: echo "::set-output name=date::$(date)"
         
-      - name: first-log-entry
+      - name: log-entry
         uses: DamianReeves/write-file-action@master
         with: 
           path: ./logs/ephemeral_log.txt
@@ -151,7 +151,7 @@ jobs:
         id: start-date
         run: echo "::set-output name=date::$(date)"
         
-      - name: first-log-entry
+      - name: log-entry
         uses: DamianReeves/write-file-action@master
         with: 
           path: ./logs/ephemeral_log.txt
@@ -183,7 +183,7 @@ jobs:
         id: start-date
         run: echo "::set-output name=date::$(date)"
         
-      - name: first-log-entry
+      - name: log-entry
         uses: DamianReeves/write-file-action@master
         with: 
           path: ./logs/ephemeral_log.txt
