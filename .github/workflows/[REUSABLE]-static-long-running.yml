@@ -19,5 +19,5 @@ jobs:
   log-long-running-finish:
     uses: ./.github/workflows/[REUSABLE]-write-log.yml
     with:
-      message: "Long-running process started @ "
+      message: "Long-running process ended @ "
       is_static: true
