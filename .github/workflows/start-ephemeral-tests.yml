@@ -1,44 +1,24 @@
 name: Standard_Tests_Ephemeral
 
-# Simuulates running 3 sets of tests in succession, each having their own environment
+# Simulates running 3 sets of tests in succession, each having their own environment
 
 on: 
   workflow_dispatch
 
 jobs:
+  log-workflow-start:
+    uses: ./.github/workflows/[REUSABLE]-write-log.yml
+    with:
+      message: "Ephemeral workflow started @ "
+      is_static: false
+      
   log-SIT-call:
-    runs-on: ubuntu-latest
-    permissions: 
-      contents: write
-    steps:
-      - name: checkout-repo
-        uses: actions/checkout@v3
-
-      - name: get-date
-        id: start-date
-        run: echo "::set-output name=date::$(date)"
-        
-      - name: first-log-entry
-        uses: DamianReeves/write-file-action@master
-        with: 
-          path: ./logs/ephemeral_log.txt
-          write-mode: overwrite
-          contents: "Ephemeral workflow started @ ${{ steps.start-date.outputs.date }}\n"
-    
-      - name: log-entry
-        uses: DamianReeves/write-file-action@master
-        with: 
-          path: ./logs/ephemeral_log.txt
-          write-mode: append
-          contents: "Starting SIT Tests @ ${{ steps.start-date.outputs.date }}\n"  
-
-      - name: commit-log-entry
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with: 
-          branch: main
-          commit_message: "Update logs @ ${{ steps.start-date.outputs.date }}"
-          push_options: '--force'
-               
+    needs: log-workflow-start 
+    uses: ./.github/workflows/[REUSABLE]-write-log.yml
+    with:
+      message: "SIT testing started @ "
+      is_static: false
+      
   run-SIT-tests:
     needs: log-SIT-call
     uses: ./.github/workflows/[REUSABLE]-ephemeral-tests.yml
@@ -46,58 +26,18 @@ jobs:
       environment: SIT
       
   log-UAT-call:
-    runs-on: ubuntu-latest
     needs: run-SIT-tests
-    permissions: 
-      contents: write
-    steps:
-      - name: checkout-repo
-        uses: actions/checkout@v3
-
-      - name: get-date
-        id: start-date
-        run: echo "::set-output name=date::$(date)"
-        
-      - name: log-entry
-        uses: DamianReeves/write-file-action@master
-        with: 
-          path: ./logs/ephemeral_log.txt
-          write-mode: append
-          contents: "Starting SIT Tests @ ${{ steps.start-date.outputs.date }}\n"
-
-      - name: commit-log-entry
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with: 
-          branch: main
-          commit_message: "Update logs @ ${{ steps.start-date.outputs.date }}"
-          push_options: '--force'
+    uses: ./.github/workflows/[REUSABLE]-write-log.yml
+    with:
+      message: "Starting UAT Tests @ "
+      is_static: false
   
   log-long-running-start:
-    runs-on: ubuntu-latest
     needs: run-SIT-tests
-    permissions: 
-      contents: write
-    steps:
-      - name: checkout-repo
-        uses: actions/checkout@v3
-
-      - name: get-date
-        id: start-date
-        run: echo "::set-output name=date::$(date)"
-        
-      - name: log-entry
-        uses: DamianReeves/write-file-action@master
-        with: 
-          path: ./logs/ephemeral_log.txt
-          write-mode: append
-          contents: "Starting long-running process @ ${{ steps.start-date.outputs.date }}\n"
-
-      - name: commit-log-entry
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with: 
-          branch: main
-          commit_message: "Update logs @ ${{ steps.start-date.outputs.date }}"
-          push_options: '--force'
+    uses: ./.github/workflows/[REUSABLE]-write-log.yml
+    with:
+      message: "Starting long-running process @ "
+      is_static: false
   
   start-long-running-process:
     needs: log-UAT-call
@@ -119,30 +59,10 @@ jobs:
 
   log-ORT-call:
     needs: run-UAT-tests
-    runs-on: ubuntu-latest
-    permissions: 
-      contents: write
-    steps:
-      - name: checkout-repo
-        uses: actions/checkout@v3
-
-      - name: get-date
-        id: start-date
-        run: echo "::set-output name=date::$(date)"
-        
-      - name: log-entry
-        uses: DamianReeves/write-file-action@master
-        with: 
-          path: ./logs/ephemeral_log.txt
-          write-mode: append
-          contents: "Starting ORT tests @ ${{ steps.start-date.outputs.date }}\n"
-
-      - name: commit-log-entry
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with: 
-          branch: main
-          commit_message: "Update logs @ ${{ steps.start-date.outputs.date }}"
-          push_options: '--force'
+    uses: ./.github/workflows/[REUSABLE]-write-log.yml
+    with:
+      message: "Starting ORT tests @ "
+      is_static: false
 
   run-ORT-tests:
     needs: log-ORT-call
@@ -151,28 +71,8 @@ jobs:
       environment: ORT
 
   log-ORT-end:
-    needs: run-ORT-tests
-    runs-on: ubuntu-latest
-    permissions: 
-      contents: write
-    steps:
-      - name: checkout-repo
-        uses: actions/checkout@v3
-
-      - name: get-date
-        id: start-date
-        run: echo "::set-output name=date::$(date)"
-        
-      - name: log-entry
-        uses: DamianReeves/write-file-action@master
-        with: 
-          path: ./logs/ephemeral_log.txt
-          write-mode: append
-          contents: "Finished ORT tests @ ${{ steps.start-date.outputs.date }}\n"
-
-      - name: commit-log-entry
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with: 
-          branch: main
-          commit_message: "Update logs @ ${{ steps.start-date.outputs.date }}"
-          push_options: '--force'     
+    needs: run-ORT-tests 
+    uses: ./.github/workflows/[REUSABLE]-write-log.yml
+    with:
+      message: "Finished ORT tests @ "
+      is_static: false
