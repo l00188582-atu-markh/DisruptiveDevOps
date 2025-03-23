@@ -19,6 +19,7 @@ jobs:
           contents: "Starting ephemeral long-running task @ ${{ steps.start-date.outputs.date }}"
          
   run-test:
+    needs: log-start
     runs-on: ubuntu-latest
     steps:
       - name: Perform_mock_tests
@@ -27,6 +28,7 @@ jobs:
           sleep 120
           
   log-end:
+    needs: run-test
     runs-on: local
     steps:
       - name: get-end
