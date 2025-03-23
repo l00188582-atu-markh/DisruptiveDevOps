@@ -4,20 +4,38 @@ on:
   workflow_call
 
 jobs:
+  log-start:
+    runs-on: local
+    steps:
+      - name: get-start
+        id: start-date
+        run: echo "::set-output name::date$(date)"
+       
+      - name: log-start
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: E:\Experiment\ephemeral_log.txt
+          write-mode: append
+          contents: "Starting ephemeral long-running task @ ${{ steps.start-date.outputs.date }}"
+         
   run-test:
     runs-on: ubuntu-latest
     steps:
       - name: Perform_mock_tests
         shell: bash
         run: |
-          START=$(date)
-          echo "Long-running testing started at $START"
           sleep 120
-          FINISH=$(date)
-          echo "Long-running testing finished at $FINISH"
-
-  log-long-running-finish:
-    uses: ./.github/workflows/[REUSABLE]-write-log.yml
-    with:
-      message: "Long-running process ended @ "
-      is_static: false
+          
+  log-end:
+    runs-on: local
+    steps:
+      - name: get-end
+        id: end-date
+        run: echo "::set-output name::date$(date)"
+       
+      - name: log-start
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: E:\Experiment\ephemeral_log.txt
+          write-mode: append
+          contents: "Finished ephemeral long-running task @ ${{ steps.end-date.outputs.date }}"
