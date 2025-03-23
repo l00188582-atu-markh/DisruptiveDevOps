@@ -7,17 +7,29 @@ jobs:
   run-test:
     runs-on: local
     steps:
+      - name: get-start
+        id: start-date
+        run: echo "::set-output name=date::$(date)"
+
+      - name: log-start
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: E:\Experiment\static_log.txt
+          write-mode: append
+          contents: "Starting static long-running process @ ${{ steps.start-date.outputs.date }}"
+    
       - name: Perform_mock_tests
         shell: powershell
         run: |
-          $START = Get-Date
-          echo "Long-running testing started at $START"
           Start-Sleep -Seconds 120
-          $FINISH = Get-Date
-          echo "Long-running testing finished at $FINISH"
-
-  log-long-running-finish:
-    uses: ./.github/workflows/[REUSABLE]-write-log.yml
-    with:
-      message: "Long-running process ended @ "
-      is_static: true
+          
+      - name: get-end
+        id: end-date
+        run: echo "::set-output name=date::$(date)"
+        
+      - name: log-end
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: E:\Experiment\static_log.txt
+          write-mode: append
+          contents: "Finished static long-running process @ ${{ steps.end-date.outputs.date }}"
