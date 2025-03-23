@@ -13,6 +13,7 @@ jobs:
       is_static: false
   
   run-SIT-tests:
+    needs: log-workflow-start
     uses: ./.github/workflows/[REUSABLE]-ephemeral-tests.yml
     with:
       environment: SIT
