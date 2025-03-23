@@ -47,5 +47,5 @@ jobs:
     needs: run-ORT-tests
     uses: ./.github/workflows/[REUSABLE]-write-log.yml
     with:
-      message: "STARTING STATIC WORKFLOW @ "
+      message: "FINISHED STATIC WORKFLOW @ "
       is_static: true 
