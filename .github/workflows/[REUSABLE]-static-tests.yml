@@ -21,7 +21,7 @@ jobs:
         with:
           path: E:\Experiment\static_log.txt
           write-mode: append
-          contents: "Starting ${{ inputs.environment}} testing @ ${{ steps.start-date.outputs.date }}"
+          contents: "Starting ${{ inputs.environment}} testing (static) @ ${{ steps.start-date.outputs.date }}"
       
       - name: Perform_mock_tests
         shell: powershell
@@ -37,6 +37,6 @@ jobs:
         with:
           path: E:\Experiment\static_log.txt
           write-mode: append
-          contents: "Finished ${{ inputs.environment}} testing @ ${{ steps.end-date.outputs.date }}"
+          contents: "Finished ${{ inputs.environment}} testing (static) @ ${{ steps.end-date.outputs.date }}"
 
   
