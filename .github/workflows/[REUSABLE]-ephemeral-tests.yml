@@ -9,15 +9,38 @@ on:
         required: true
 
 jobs:
+  log-start:
+    runs-on: local
+    steps:
+      - name: get-start
+        id: start-date
+        run: echo "::set-output name=date::$(date)
+
+      - name: log-start
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: E:\Experiment\ephemeral_log.txt
+          write-mode: append
+          contents: "Starting ${{ inputs.environments }} testing (ephemeral) @ ${{ steps.start-date.outputs.date }}"
+          
   run-test:
     runs-on: ubuntu-latest
     steps:
       - name: Perform_mock_tests
         shell: bash
         run: |
-          START=$(date)
-          echo "${{ inputs.environment }} testing started at $START"
-          sleep 10
-          FINISH=$(date)
-          echo "${{ inputs.environment }} testing finished at $FINISH"
-      
+          sleep 30
+              
+  log-end:
+    runs-on: local
+    steps:
+      - name: get-start
+        id: end-date
+        run: echo "::set-output name=date::$(date)
+
+      - name: log-start
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: E:\Experiment\ephemeral_log.txt
+          write-mode: append
+          contents: "Starting ${{ inputs.environments }} testing (ephemeral) @ ${{ steps.end-date.outputs.date }}"
