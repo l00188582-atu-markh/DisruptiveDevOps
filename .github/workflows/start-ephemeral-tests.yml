@@ -6,6 +6,12 @@ on:
   workflow_dispatch
 
 jobs:
+  log-workflow-start:
+    uses: ./.github/workflows/[REUSABLE]-write-log.yml
+    with:
+      message: "STARTING EPHEMERAL WORKFLOW @ "
+      is_static: false
+  
   run-SIT-tests:
     uses: ./.github/workflows/[REUSABLE]-ephemeral-tests.yml
     with:
@@ -34,3 +40,10 @@ jobs:
     uses: ./.github/workflows/[REUSABLE]-ephemeral-tests.yml
     with:
       environment: ORT
+
+  log-workflow-end:
+    needs: run-ORT-tests
+    uses: ./.github/workflows/[REUSABLE]-write-log.yml
+    with:
+      message: "FINISHED EPHEMERAL WORKFLOW @ "
+      is_static: false
