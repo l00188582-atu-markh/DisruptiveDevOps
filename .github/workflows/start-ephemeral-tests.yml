@@ -6,45 +6,17 @@ on:
   workflow_dispatch
 
 jobs:
-  log-workflow-start:
-    uses: ./.github/workflows/[REUSABLE]-write-log.yml
-    with:
-      message: "Ephemeral workflow started @ "
-      is_static: false
-      
-  log-SIT-call:
-    needs: log-workflow-start 
-    uses: ./.github/workflows/[REUSABLE]-write-log.yml
-    with:
-      message: "SIT testing started @ "
-      is_static: false
-      
   run-SIT-tests:
-    needs: log-SIT-call
     uses: ./.github/workflows/[REUSABLE]-ephemeral-tests.yml
     with:
       environment: SIT
-      
-  log-UAT-call:
-    needs: run-SIT-tests
-    uses: ./.github/workflows/[REUSABLE]-write-log.yml
-    with:
-      message: "Starting UAT Tests @ "
-      is_static: false
-  
-  log-long-running-start:
-    needs: run-SIT-tests
-    uses: ./.github/workflows/[REUSABLE]-write-log.yml
-    with:
-      message: "Starting long-running process @ "
-      is_static: false
-  
+     
   start-long-running-process:
-    needs: log-UAT-call
+    needs: run-SIT-tests
     uses: ./.github/workflows/[REUSABLE]-ephemeral-long-running.yml
 
   snooze:
-    needs: log-UAT-call
+    needs: run-SIT-tests
     runs-on: ubuntu-latest
     steps:
       - name: call_sleep_timer
@@ -57,22 +29,8 @@ jobs:
     with: 
       environment: UAT
 
-  log-ORT-call:
-    needs: run-UAT-tests
-    uses: ./.github/workflows/[REUSABLE]-write-log.yml
-    with:
-      message: "Starting ORT tests @ "
-      is_static: false
-
   run-ORT-tests:
-    needs: log-ORT-call
+    needs: run-UAT-tests
     uses: ./.github/workflows/[REUSABLE]-ephemeral-tests.yml
     with:
       environment: ORT
-
-  log-ORT-end:
-    needs: run-ORT-tests 
-    uses: ./.github/workflows/[REUSABLE]-write-log.yml
-    with:
-      message: "Finished ORT tests @ "
-      is_static: false
