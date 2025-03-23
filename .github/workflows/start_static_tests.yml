@@ -6,7 +6,14 @@ on:
   workflow_dispatch
 
 jobs:
+  log-workflow-start:
+    uses: ./.github/workflows/[REUSABLE]-write-log.yml
+    with:
+      message: "STARTING STATIC WORKFLOW @ "
+      is_static: true
+  
   run-SIT-tests:
+    needs: log-workflow-start
     uses: ./.github/workflows/[REUSABLE]-static-tests.yml
     with:
       environment: SIT
@@ -35,4 +42,10 @@ jobs:
     uses: ./.github/workflows/[REUSABLE]-static-tests.yml
     with:
       environment: ORT
- 
+  
+  log-workflow-end:
+    needs: run-ORT-tests
+    uses: ./.github/workflows/[REUSABLE]-write-log.yml
+    with:
+      message: "STARTING STATIC WORKFLOW @ "
+      is_static: true 
