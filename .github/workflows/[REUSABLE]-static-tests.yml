@@ -12,15 +12,31 @@ jobs:
   run-test:
     runs-on: local
     steps:
+      - name: get-start
+        id: start-date
+        run: echo "::set-output name=date::$(date)"
+
+      - name: log-start
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: E:\Experiment\static_log.txt
+          write-mode: append
+          contents: "Starting ${{ inputs.environment}} testing @ ${{ steps.start-date.outputs.date }}"
+      
       - name: Perform_mock_tests
         shell: powershell
         run: |
-          $START = Get-Date
-          echo "${{ inputs.environment }} testing started at $START"
-          Start-Sleep -Seconds 10
-          $FINISH = Get-Date
-          echo "${{ inputs.environment }} testing finished at $FINISH"
-      
-  
+          Start-Sleep -Seconds 30
+          
+      - name: get-end
+        id: end-date
+        run: echo "::set-output name=date::$(date)"
+        
+      - name: log-end
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: E:\Experiment\static_log.txt
+          write-mode: append
+          contents: "Finished ${{ inputs.environment}} testing @ ${{ steps.end-date.outputs.date }}"
 
   
