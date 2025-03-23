@@ -34,13 +34,13 @@ jobs:
   log-end:
     runs-on: local
     steps:
-      - name: get-start
+      - name: get-end
         id: end-date
         run: echo "::set-output name=date::$(date)"
 
-      - name: log-start
+      - name: log-end
         uses: DamianReeves/write-file-action@master
         with:
           path: E:\Experiment\ephemeral_log.txt
           write-mode: append
-          contents: "Starting ${{ inputs.environments }} testing (ephemeral) @ ${{ steps.end-date.outputs.date }}"
+          contents: "Finished ${{ inputs.environments }} testing (ephemeral) @ ${{ steps.end-date.outputs.date }}"
