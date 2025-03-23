@@ -21,7 +21,7 @@ jobs:
         with:
           path: E:\Experiment\ephemeral_log.txt
           write-mode: append
-          contents: "Starting ${{ inputs.environments }} testing (ephemeral) @ ${{ steps.start-date.outputs.date }}"
+          contents: "Starting ${{ inputs.environment }} testing (ephemeral) @ ${{ steps.start-date.outputs.date }}"
           
   run-test:
     needs: log-start
@@ -45,4 +45,4 @@ jobs:
         with:
           path: E:\Experiment\ephemeral_log.txt
           write-mode: append
-          contents: "Finished ${{ inputs.environments }} testing (ephemeral) @ ${{ steps.end-date.outputs.date }}"
+          contents: "Finished ${{ inputs.environment }} testing (ephemeral) @ ${{ steps.end-date.outputs.date }}"
